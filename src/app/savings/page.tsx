@@ -11,6 +11,8 @@ import {
   LineChart as ChartIcon
 } from "lucide-react";
 import SavingsChart from "@/components/SavingsChart";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 async function getSavingsData(userId: string) {
   const [accountsRes, transactionsRes] = await Promise.all([
@@ -54,7 +56,9 @@ async function getSavingsData(userId: string) {
 }
 
 export default async function SavingsPage() {
-  const userId = "13bfe2bb-dd03-4877-abca-4be70b058c3a"; // Hardcoded
+  const session = await getSession();
+  if (!session) redirect("/login");
+  const userId = session.userId as string;
   const data = await getSavingsData(userId);
 
   return (
@@ -114,7 +118,7 @@ export default async function SavingsPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {data.accounts.map((acc) => (
+            {data.accounts.map((acc: any) => (
               <div key={acc.id} className="hud-panel p-6 space-y-4 group hover:border-neon-cyan/50 transition-all">
                 <div className="flex justify-between items-start">
                   <div>

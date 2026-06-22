@@ -1,6 +1,8 @@
 import React from "react";
 import { db } from "@/lib/db";
 import DebtsClient from "./DebtsClient";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 async function getDebtData(userId: string) {
   const [debtsRes, receivablesRes, logsRes] = await Promise.all([
@@ -36,7 +38,9 @@ async function getDebtData(userId: string) {
 }
 
 export default async function DebtsPage() {
-  const userId = "13bfe2bb-dd03-4877-abca-4be70b058c3a"; 
+  const session = await getSession();
+  if (!session) redirect("/login");
+  const userId = session.userId as string;
   const data = await getDebtData(userId);
 
   return (

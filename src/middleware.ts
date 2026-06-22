@@ -10,10 +10,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // If no token, redirect to login (placeholder path)
-  // if (!token || !(await verifyToken(token))) {
-  //   return NextResponse.redirect(new URL("/login", request.url));
-  // }
+  // If no token, redirect to login
+  if (!token || !(await verifyToken(token))) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
   return NextResponse.next();
 }

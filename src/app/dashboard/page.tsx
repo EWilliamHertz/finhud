@@ -1,6 +1,8 @@
 import React from "react";
 import { db } from "@/lib/db";
 import { formatCurrency, cn } from "@/lib/utils";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 import { 
   TrendingUp, 
@@ -68,8 +70,9 @@ async function getDashboardData(userId: string) {
 }
 
 export default async function DashboardPage() {
-  // Hardcoded user_id for now (should come from session)
-  const userId = "13bfe2bb-dd03-4877-abca-4be70b058c3a"; 
+  const session = await getSession();
+  if (!session) redirect("/login");
+  const userId = session.userId as string;
   const data = await getDashboardData(userId);
 
   return (

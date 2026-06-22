@@ -1,12 +1,18 @@
 import React from "react";
 import { db } from "@/lib/db";
 import TransactionsClient from "./TransactionsClient";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function TransactionsPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const session = await getSession();
+  if (!session) redirect("/login");
+  const userId = session.userId as string;
+
   const params = await searchParams;
   const page = Number(params.page) || 1;
   const limit = 10;
@@ -16,7 +22,7 @@ export default async function TransactionsPage({
 
   // Build the query
   let sql = "SELECT * FROM transactions WHERE user_id = $1";
-  const sqlParams: any[] = ["13bfe2bb-dd03-4877-abca-4be70b058c3a"]; // Hardcoded user_id
+  const sqlParams: any[] = [userId];
 
   if (type) {
     sql += ` AND type = $${sqlParams.length + 1}`;
@@ -32,7 +38,7 @@ export default async function TransactionsPage({
   sqlParams.push(limit, offset);
 
   const transactionsRes = await db.query(sql, sqlParams);
-  const countRes = await db.query("SELECT COUNT(*) FROM transactions WHERE user_id = $1", ["13bfe2bb-dd03-4877-abca-4be70b058c3a"]);
+  const countRes = await db.query("SELECT COUNT(*) FROM transactions WHERE user_id = $1", [userId]);
   const totalCount = Number(countRes.rows[0].count);
   const totalPages = Math.ceil(totalCount / limit);
 

@@ -10,6 +10,8 @@ import {
   BarChart3,
   PieChart
 } from "lucide-react";
+import { getSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 async function getInvestmentData(userId: string) {
   const [investmentsRes, logsRes] = await Promise.all([
@@ -53,7 +55,9 @@ async function getInvestmentData(userId: string) {
 }
 
 export default async function InvestmentsPage() {
-  const userId = "13bfe2bb-dd03-4877-abca-4be70b058c3a"; // Hardcoded
+  const session = await getSession();
+  if (!session) redirect("/login");
+  const userId = session.userId as string;
   const data = await getInvestmentData(userId);
 
   return (
@@ -121,7 +125,7 @@ export default async function InvestmentsPage() {
           </div>
           
           <div className="hud-panel divide-y divide-white/5">
-            {data.investments.map((inv) => (
+            {data.investments.map((inv: any) => (
               <div key={inv.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 group hover:bg-white/[0.02] transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="h-12 w-12 rounded bg-black border border-white/10 flex items-center justify-center text-xl font-black text-neon-cyan">

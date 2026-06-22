@@ -3,8 +3,12 @@
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 
+import { getSession } from "@/lib/auth";
+
 export async function deleteDebtLog(logId: string) {
-  const userId = "13bfe2bb-dd03-4877-abca-4be70b058c3a";
+  const session = await getSession();
+  if (!session) return { error: "Not authorized" };
+  const userId = session.userId as string;
   try {
     await db.query("DELETE FROM debt_logs WHERE id = $1 AND user_id = $2", [logId, userId]);
     revalidatePath("/debts");
@@ -16,7 +20,9 @@ export async function deleteDebtLog(logId: string) {
 }
 
 export async function deleteDebt(debtId: string) {
-  const userId = "13bfe2bb-dd03-4877-abca-4be70b058c3a";
+  const session = await getSession();
+  if (!session) return { error: "Not authorized" };
+  const userId = session.userId as string;
   const isReceivable = debtId.startsWith('rcv');
   const table = isReceivable ? 'receivables' : 'debts';
   try {
@@ -31,7 +37,9 @@ export async function deleteDebt(debtId: string) {
 }
 
 export async function createDebt(formData: FormData) {
-  const userId = "13bfe2bb-dd03-4877-abca-4be70b058c3a";
+  const session = await getSession();
+  if (!session) return { error: "Not authorized" };
+  const userId = session.userId as string;
   const type = formData.get("type") as 'liability' | 'receivable'; 
   const name = formData.get("name") as string;
   const debtType = (formData.get("debtType") as string) || "loan";
@@ -59,7 +67,9 @@ export async function createDebt(formData: FormData) {
 }
 
 export async function logDebtTransaction(formData: FormData) {
-  const userId = "13bfe2bb-dd03-4877-abca-4be70b058c3a"; // Hardcoded for now
+  const session = await getSession();
+  if (!session) return { error: "Not authorized" };
+  const userId = session.userId as string;
   const debtId = formData.get("debtId") as string;
   const amount = parseFloat(formData.get("amount") as string);
   const actionType = formData.get("actionType") as string; // 'payment' or 'increase'

@@ -30,9 +30,17 @@ const navItems = [
   { name: "Vault", href: "/savings", icon: PiggyBank },
 ];
 
+import { LogOut } from "lucide-react";
+import { logout } from "@/lib/auth-actions";
+
 export default function Navigation() {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
 
   return (
     <nav className="sticky top-0 z-50 w-full px-4 py-4 md:px-8">
@@ -77,10 +85,13 @@ export default function Navigation() {
 
         {/* System Stats / Settings */}
         <div className="hidden md:flex items-center gap-4">
-          <div className="flex flex-col items-end">
-            <span className="text-[10px] font-mono text-gray-500 uppercase">Operative</span>
-            <span className="text-xs font-mono text-neon-emerald">ernst@hatake.eu</span>
-          </div>
+          <button 
+            onClick={handleLogout}
+            className="h-10 w-10 flex items-center justify-center rounded-sm border border-white/5 hover:border-neon-rose/50 hover:bg-neon-rose/5 transition-all group"
+            title="LOGOUT"
+          >
+            <LogOut size={18} className="text-gray-400 group-hover:text-neon-rose transition-colors" />
+          </button>
           <button className="h-10 w-10 flex items-center justify-center rounded-sm border border-white/5 hover:border-neon-cyan/50 hover:bg-neon-cyan/5 transition-all">
             <Settings size={18} className="text-gray-400 hover:text-neon-cyan transition-colors" />
           </button>
