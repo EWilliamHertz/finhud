@@ -1,4 +1,6 @@
-# Nestjs specific
+# Next.js / Nestjs specific
+.next/
+out/
 /dist
 /node_modules
 /build
