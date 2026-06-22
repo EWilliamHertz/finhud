@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import SavingsChart from "@/components/SavingsChart";
 
-async function getSavingsData(userId: number) {
+async function getSavingsData(userId: string) {
   const [accountsRes, transactionsRes] = await Promise.all([
     db.query("SELECT * FROM savings_accounts WHERE user_id = $1 ORDER BY balance DESC", [userId]),
     db.query(`
