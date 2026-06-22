@@ -10,12 +10,18 @@ import {
   ArrowDownRight,
   ChevronLeft,
   ChevronRight,
-  MoreVertical
+  Trash2
 } from "lucide-react";
 import NewTransactionModal from "@/components/NewTransactionModal";
+import { deleteTransaction } from "@/lib/transactions-actions";
 
 export default function TransactionsClient({ transactions, totalCount, page, totalPages, limit, offset }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this entry?")) return;
+    await deleteTransaction(id);
+  };
 
   return (
     <div className="space-y-8 animate-in slide-in-from-bottom-4 duration-700">
@@ -102,8 +108,11 @@ export default function TransactionsClient({ transactions, totalCount, page, tot
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button className="text-gray-500 hover:text-white transition-colors">
-                      <MoreVertical size={16} />
+                    <button 
+                      onClick={() => handleDelete(tx.id)}
+                      className="text-gray-500 hover:text-neon-rose transition-colors p-1"
+                    >
+                      <Trash2 size={16} />
                     </button>
                   </td>
                 </tr>

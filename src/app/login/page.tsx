@@ -6,6 +6,7 @@ import { Lock, User, Cpu, ArrowRight } from "lucide-react";
 
 import { login } from "@/lib/auth-actions";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("ernst@hatake.eu");

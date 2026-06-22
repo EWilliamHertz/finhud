@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { formatCurrency, cn } from "@/lib/utils";
 import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 import { 
   TrendingUp, 
@@ -137,7 +138,7 @@ export default async function DashboardPage() {
               <Activity size={18} className="text-neon-cyan" />
               <h3 className="font-mono text-sm uppercase tracking-widest">Transaction_Feed</h3>
             </div>
-            <button className="text-[10px] font-mono text-neon-cyan hover:underline uppercase tracking-tighter">View_All_Logs</button>
+            <Link href="/transactions" className="text-[10px] font-mono text-neon-cyan hover:underline uppercase tracking-tighter">View_All_Logs</Link>
           </div>
           
           <div className="hud-panel divide-y divide-white/5 overflow-hidden">
