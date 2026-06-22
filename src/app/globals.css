@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #050505;
+  --foreground: #e2e8f0;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground selection:bg-neon-cyan/30 selection:text-neon-cyan overflow-x-hidden;
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer components {
+  .hud-panel {
+    @apply bg-hud-panel backdrop-blur-md border border-hud-border rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)];
+  }
+
+  .hud-panel-glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl;
+  }
+
+  .neon-text-cyan {
+    @apply text-neon-cyan drop-shadow-[0_0_8px_rgba(0,243,255,0.8)];
+  }
+
+  .neon-text-emerald {
+    @apply text-neon-emerald drop-shadow-[0_0_8px_rgba(16,185,129,0.8)];
+  }
+
+  .neon-text-rose {
+    @apply text-neon-rose drop-shadow-[0_0_8px_rgba(244,63,94,0.8)];
+  }
+
+  .neon-border-cyan {
+    @apply border-neon-cyan/50 shadow-[0_0_10px_rgba(0,243,255,0.3)];
+  }
+
+  .hud-button {
+    @apply relative overflow-hidden px-4 py-2 bg-transparent border border-neon-cyan/30 text-neon-cyan hover:bg-neon-cyan/10 hover:border-neon-cyan transition-all duration-300 rounded-sm font-mono text-xs tracking-widest uppercase;
+  }
+
+  .hud-input {
+    @apply bg-black/40 border border-hud-border focus:border-neon-cyan/60 focus:ring-1 focus:ring-neon-cyan/20 outline-none px-3 py-2 text-sm text-foreground transition-all duration-200 font-mono;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neon-cyan/20 rounded-full hover:bg-neon-cyan/40 transition-colors;
+}
+
+/* HUD Grid Background */
+.bg-grid {
+  background-size: 30px 30px;
+  background-image: var(--hud-grid);
+}
+
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 50;
+  background: linear-gradient(0deg, rgba(0, 243, 255, 0) 0%, rgba(0, 243, 255, 0.05) 50%, rgba(0, 243, 255, 0) 100%);
+  opacity: 0.1;
+  position: fixed;
+  pointer-events: none;
+}
