@@ -1,18 +1,9 @@
 import * as jose from "jose";
-import argon2 from "argon2";
 import { cookies } from "next/headers";
 
 const secret = new TextEncoder().encode(
   process.env.JWT_SECRET || "default-secret-key-change-me"
 );
-
-export async function hashPassword(password: string) {
-  return await argon2.hash(password);
-}
-
-export async function verifyPassword(password: string, hash: string) {
-  return await argon2.verify(hash, password);
-}
 
 export async function createToken(payload: any) {
   return await new jose.SignJWT(payload)

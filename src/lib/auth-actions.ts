@@ -1,7 +1,8 @@
 "use server";
 
 import { db } from "./db";
-import { hashPassword, verifyPassword, createToken } from "./auth";
+import { createToken } from "./auth";
+import { hashPassword, verifyPassword } from "./password";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
